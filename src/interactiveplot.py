@@ -92,6 +92,3 @@ def lvj():
     return render_template('index.html', plot=graph_html)
 
 
-
-if __name__ == '__main__':
-    app.run(debug=True)
