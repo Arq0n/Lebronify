@@ -14,7 +14,7 @@ def index():
 
     # Convert JSON to DataFrame (if applicable)
     df = pd.DataFrame(data)
-    df = df.sort_values(by="Minutes")
+    df = df.sort_values(by=["Minutes", "FG"])
 
     # Create plot
     fig = px.scatter(df, x="Minutes", y="FG")  # Customize as needed
