@@ -11064,7 +11064,7 @@ body {
   border: 0;
 }
 
-.masthead {
+.masthead, .about {
   position: relative;
   width: 100%;
   height: auto;
@@ -11088,7 +11088,7 @@ body {
 }
 .masthead h2, .masthead .h2 {
   max-width: 20rem;
-  font-size: 1rem;
+  font-size: 2rem;
 }
 @media (min-width: 768px) {
   .masthead h1, .masthead .h1 {
