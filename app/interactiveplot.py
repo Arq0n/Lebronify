@@ -8,7 +8,7 @@ app = Flask(__name__)
 def home():
     # Create a Bokeh plot
     plot = figure(title="Example Bokeh Plot", x_axis_label='X-Axis', y_axis_label='Y-Axis')
-    plot.line([1, 2, 3, 4], [4, 3, 2, 1], legend_label="Line", line_width=2)
+    plot.line(x = [1, 2, 3, 4], y = [4, 3, 2, 1], legend_label="Line", line_width=2)
 
     # Get the plot components
     script, div = components(plot)
