@@ -10,14 +10,14 @@ if os.path.exists(output_file):
     os.remove(output_file)
     print(f"Removed existing file: {output_file}")
 
+# Master list to store all processed game data
+all_games = []
+
 # Loop through each year from 2004 to 2024
 for i in range(2004, 2025):
     # Input file path for the current year
     input_file = f'LebronData/lebron_james_{i}_gamelog.csv'
     print(f"Processing {i}'s data...")
-
-    # List to store processed game data
-    processed_games = []
 
     # Check if the input file exists before processing
     if os.path.exists(input_file):
@@ -30,9 +30,6 @@ for i in range(2004, 2025):
 
             # Process each row in the CSV
             for row in csv_reader:
-                # Extract game number
-                row_number = row[0]
-
                 # Remove the specified columns
                 row_without_skipped_column = [
                     value for index, value in enumerate(row) if index not in skip_indices
@@ -60,15 +57,14 @@ for i in range(2004, 2025):
                     "Opponent": row_without_skipped_column[4],
                 }
 
-                # Append the processed game data to the list
-                processed_games.append(game_data)
-
-        # Append processed games to the output file
-        with open(output_file, mode='a') as json_file:
-            json.dump(processed_games, json_file, indent=4)
-            json_file.write("\n")  # Add a newline for separation between yearly data
-        print(f"Data for {i} saved successfully.")
+                # Append the processed game data to the master list
+                all_games.append(game_data)
+        print(f"Data for {i} processed successfully.")
     else:
         print(f"File not found for {i}: {input_file}")
+
+# Write all processed data to the output file as a single array
+with open(output_file, mode='w') as json_file:
+    json.dump(all_games, json_file, indent=4)
 
 print(f"All data processed and saved to {output_file}")

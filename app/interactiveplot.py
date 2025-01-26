@@ -1,20 +1,26 @@
 from flask import Flask, render_template
-from bokeh.plotting import figure
-from bokeh.embed import components
+import pandas as pd
+import plotly.express as px
+import json
 
 app = Flask(__name__)
 
 @app.route('/')
-def home():
-    # Create a Bokeh plot
-    plot = figure(title="Example Bokeh Plot", x_axis_label='X-Axis', y_axis_label='Y-Axis')
-    plot.line(x = [1, 2, 3, 4], y = [4, 3, 2, 1], legend_label="Line", line_width=2)
+def index():
+    # Load JSON data
+    json_file = './LebronData/lebron_james_processed.json'
+    with open(json_file, 'r') as file:
+        data = json.load(file)
 
-    # Get the plot components
-    script, div = components(plot)
+    # Convert JSON to DataFrame (if applicable)
+    df = pd.DataFrame(data)
+    df = df.sort_values(by="Minutes")
 
-    # Return the plot in the template
-    return render_template('index.html', script=script, div=div)
+    # Create plot
+    fig = px.scatter(df, x="Minutes", y="FG")  # Customize as needed
+    graph_html = fig.to_html(full_html=False)
+
+    return render_template('index.html', plot=graph_html)
 
 if __name__ == '__main__':
     app.run(debug=True)
