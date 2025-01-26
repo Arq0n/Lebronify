@@ -7,6 +7,11 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
+    return render_template('index.html')
+
+
+@app.route('/scatter')
+def scatter():
     # Load JSON data
     json_file = './LebronData/lebron_james_processed.json'
     with open(json_file, 'r') as file:
@@ -20,12 +25,12 @@ def index():
     fig = px.scatter(df, x="Minutes", y="FG")  # Customize as needed
     graph_html = fig.to_html(full_html=False)
 
-    return render_template('index.html', plot=graph_html)
+    return render_template('scatter.html', plot=graph_html)
 
 
-@app.route('/GOAT')
+@app.route('/goat')
 def goat():
-    image_url = url_for('static', filename='lebonbon.jpeg')
+    image_url = url_for('static', filename='images/lebonbon.jpeg')
     return render_template('goat.html', image_url=image_url)
 
 @app.route('/heatmap')
