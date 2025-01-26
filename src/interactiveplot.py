@@ -50,8 +50,11 @@ def scatter():
         )
     )
 
+    fig.layout.template = "plotly_dark"
     # Update layout for better aesthetics
     fig.update_layout(
+        paper_bgcolor="black",
+        plot_bgcolor="black",
         title_font=dict(size=24),
         xaxis=dict(title_font=dict(size=18)),
         yaxis=dict(title_font=dict(size=18)),
@@ -133,10 +136,13 @@ def heatmap():
                      size_max=60,  # Max bubble size
                      title="Minutes vs FG (Bubble Chart)")
 
+    fig.layout.template = "plotly_dark"
     # Adjust layout for better appearance
     fig.update_layout(
-        width=900,  # Adjust width
+        width=800,  # Adjust width
         height=800,  # Adjust height
+        paper_bgcolor="black",
+        plot_bgcolor="black",
         title_font_size=24,  # Increase title font size
         xaxis=dict(ticks="inside", tickangle=45, tickfont_size=14),  # Improve x-axis appearance
         yaxis=dict(ticks="inside", tickangle=45, tickfont_size=14),  # Improve y-axis appearance
@@ -174,25 +180,23 @@ def lvj():
             textposition='auto',
         )
     ])
-
+    
+    fig.layout.template = "plotly_dark"
     # Update layout for improved look
     fig.update_layout(
         title="LeBron James vs Michael Jordan Career Averages",
         xaxis=dict(title='Statistics'),
         yaxis=dict(title='Values'),
         barmode='group',
-        width=1000,  # Increased width for better appearance
+        width=800,  # Increased width for better appearance
         height=600,  # Increased height for better appearance
-        plot_bgcolor='white',  # White background
-        paper_bgcolor='#f4f4f4',  # Light gray background around the chart
-        font=dict(family="Arial, sans-serif", size=16, color="black"),
+        paper_bgcolor="black",
+        plot_bgcolor="black",
         title_font=dict(size=24, color="black"),
         legend=dict(
             x=1.05,  # Move the legend outside the chart area
             y=1,
-            bgcolor='rgba(255, 255, 255, 0.7)',  # Slightly transparent background for the legend
-            bordercolor='rgba(0, 0, 0, 0.1)',
-            font=dict(size=14, color="black")
+            bordercolor='rgba(0, 0, 0, 0.1)'
         ),
         margin=dict(l=50, r=150, t=50, b=50)  # Add more padding to the right for the legend
     )
