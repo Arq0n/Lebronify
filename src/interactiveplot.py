@@ -35,7 +35,7 @@ def scatter():
         df,
         x="FGA",
         y="FG",
-        title="LeBron James: Field Goals Made vs. Field Goal Attempts",
+        title="Field Goals Made vs. Field Goal Attempts",
         labels={"FGA": "Field Goal Attempts (FGA)", "FG": "Field Goals Made (FG)"},
         template="plotly_white"
     )
@@ -106,6 +106,7 @@ def animated_scatter():
     # Sort the DataFrame by 'Minutes' to ensure the animation progresses in sorted order
     df = df.sort_values(by="Minutes")
 
+    
     # Create the animated scatter plot
     fig = px.scatter(
         df,
@@ -119,9 +120,14 @@ def animated_scatter():
         log_x=False,                 # Linear scale for x-axis
         size_max=45,                 # Maximum size for bubbles
         range_x=[0, df["FG"].max() + 10],  # Adjust X-axis range
-        range_y=[0, df["FGA"].max() + 10]  # Adjust Y-axis range
+        range_y=[0, df["FGA"].max() + 10],  # Adjust Y-axis range
+        title="Field Goals Made vs. Field Goal Attempts"
     )
-
+    fig.layout.template = "plotly_dark"
+    fig.update_layout(
+        paper_bgcolor="black",
+        plot_bgcolor="black",
+    )
     # Convert plot to HTML
     graph_html = fig.to_html(full_html=False)
 
@@ -238,11 +244,11 @@ def lvj():
             textposition='auto',
         )
     ])
-    
+
     fig.layout.template = "plotly_dark"
     # Update layout for improved look
     fig.update_layout(
-        title="LeBron James vs Michael Jordan Career Averages",
+        title=dict(text="LeBron James vs Michael Jordan Career Averages"),
         xaxis=dict(title='Statistics'),
         yaxis=dict(title='Values'),
         barmode='group',
@@ -250,7 +256,7 @@ def lvj():
         height=600,  # Increased height for better appearance
         paper_bgcolor="black",
         plot_bgcolor="black",
-        title_font=dict(size=24, color="black"),
+        title_font=dict(size=24, color="white"),
         legend=dict(
             x=1.05,  # Move the legend outside the chart area
             y=1,
