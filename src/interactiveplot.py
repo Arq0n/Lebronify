@@ -3,6 +3,7 @@ import pandas as pd
 import plotly.express as px
 import json
 import plotly.graph_objects as go
+import numpy as np
 
 app = Flask(__name__)
 
@@ -17,15 +18,53 @@ def scatter():
     with open(json_file, 'r') as file:
         data = json.load(file)
 
-    # Convert JSON to DataFrame (if applicable)
+    # Convert JSON to DataFrame
     df = pd.DataFrame(data)
-    df = df.sort_values(by=["Minutes", "FG"])
 
-    # Create plot
-    fig = px.scatter(df, x="Minutes", y="FG")  # Customize as needed
+    # Ensure 'FGA' and 'FG' columns exist and are numeric
+    df['FGA'] = pd.to_numeric(df['FGA'], errors='coerce')
+    df['FG'] = pd.to_numeric(df['FG'], errors='coerce')
+
+    # Drop rows with NaN values in 'FGA' or 'FG'
+    df = df.dropna(subset=['FGA', 'FG'])
+    
+    slope, intercept = np.polyfit(df['FGA'], df['FG'], 1)
+
+    # Create scatter plot
+    fig = px.scatter(
+        df,
+        x="FGA",
+        y="FG",
+        title="LeBron James: Field Goals Made vs. Field Goal Attempts",
+        labels={"FGA": "Field Goal Attempts (FGA)", "FG": "Field Goals Made (FG)"},
+        template="plotly_white"
+    )
+
+    fig.add_trace(
+        go.Scatter(
+            x=df['FGA'], 
+            y=slope * df['FGA'] + intercept,
+            mode='lines',
+            name='Field goal percentage',
+            line=dict(color='red', dash='dash')
+        )
+    )
+
+    # Update layout for better aesthetics
+    fig.update_layout(
+        title_font=dict(size=24),
+        xaxis=dict(title_font=dict(size=18)),
+        yaxis=dict(title_font=dict(size=18)),
+        margin=dict(l=40, r=40, t=80, b=40),
+        height=600,
+    )
+
+    # Convert the figure to HTML
     graph_html = fig.to_html(full_html=False)
 
+    # Render the template with the plot
     return render_template('scatter.html', plot=graph_html)
+
 
 
 @app.route('/GOAT')
