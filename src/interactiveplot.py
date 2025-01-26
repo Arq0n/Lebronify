@@ -68,6 +68,64 @@ def scatter():
 
     return render_template('scatter.html', plot=graph_html)
 
+@app.route('/animatedscatter')
+def animated_scatter():
+    # Load JSON data
+    json_file = './LebronData/lebron_james_processed.json'
+    with open(json_file, 'r') as file:
+        data = json.load(file)
+
+    # Convert JSON to DataFrame
+    df = pd.DataFrame(data)
+
+    df["FG"] = pd.to_numeric(df["FG"], errors="coerce")
+    df["FGA"] = pd.to_numeric(df["FGA"], errors="coerce")
+
+    def convert_minutes(minute_str):
+        if isinstance(minute_str, str):
+            try:
+                minutes, seconds = minute_str.split(':')
+                return int(minutes) + int(seconds) / 60
+            except ValueError:
+                return float('nan')  # Return NaN if there's an error in conversion
+        return float(minute_str)  # In case it's already numeric or NaN
+
+    # Apply conversion to the 'Minutes' column
+    df['Minutes'] = df['Minutes'].apply(convert_minutes)
+    df["Points"] = pd.to_numeric(df["Points"], errors="coerce")
+    df["Assists"] = pd.to_numeric(df["Assists"], errors="coerce")
+
+    df["Points"] = df["Points"].fillna(0)
+
+    # Drop rows where Minutes are NaN (so the animation can run smoothly)
+    df = df.dropna(subset=["Minutes"])
+
+    # Round the 'Minutes' values to a desired precision (e.g., 0.5 for half-minute rounding)
+    df['Minutes'] = df['Minutes'].round(1)  # Round to 1 decimal place or adjust as needed
+
+    # Sort the DataFrame by 'Minutes' to ensure the animation progresses in sorted order
+    df = df.sort_values(by="Minutes")
+
+    # Create the animated scatter plot
+    fig = px.scatter(
+        df,
+        x="FG",              # X-axis: Field Goals
+        y="FGA",             # Y-axis: Field Goal Attempts
+        animation_frame="Minutes",    # Animation based on linear minutes
+        animation_group="Minutes",    # Grouping for animation (ensure smooth animation)
+        size="Points",               # Bubble size based on Points
+        color="Assists",             # Bubble color based on Assists
+        hover_name="Minutes",        # Hover to show the season
+        log_x=False,                 # Linear scale for x-axis
+        size_max=45,                 # Maximum size for bubbles
+        range_x=[0, df["FG"].max() + 10],  # Adjust X-axis range
+        range_y=[0, df["FGA"].max() + 10]  # Adjust Y-axis range
+    )
+
+    # Convert plot to HTML
+    graph_html = fig.to_html(full_html=False)
+
+    return render_template('animatedscatter.html', plot=graph_html)
 
 
 @app.route('/goat')
