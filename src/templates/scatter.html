@@ -3,10 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JSON Data Plot</title>
+
+    <title>LeBron James Scatter Plot</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            text-align: center;
+            padding: 30px;
+        }
+        h1 {
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+        #imageContainer {
+            display: none;  /* Hide the image initially */
+            margin-top: 20px;
+        }
+    </style>
+    <script>
+        function showImage() {
+            // Display the image container when the button is clicked
+            document.getElementById('imageContainer').style.display = 'block';
+        }
+    </script>
 </head>
 <body>
-    <h1>JSON Data Plot</h1>
+    <h1>LeBron James: Field Goals vs. Minutes Played</h1>
+
     <div>{{ plot | safe }}</div>
 </body>
 </html>

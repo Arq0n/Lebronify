@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NBA Stats Visualization</title>
+    <title>LeBron vs Jordan Career Averages</title>
     <style>
         .container {
             display: flex;
@@ -11,10 +11,10 @@
             align-items: center;
         }
         .plot-container {
-            width: 60%;
+            width: 65%;
         }
         .image-container {
-            width: 40%;
+            width: 35%;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -31,9 +31,8 @@
         <div class="plot-container">
             {{ plot|safe }}
         </div>
-        <div class="image-container">
-            <img src="{{ url_for('static', filename='powder_throw.webp') }}" alt="NBA Stats">
-        </div>
+    <div class="image-container">
+        <img src="{{ url_for('static', filename='LBJ_kid.png') }}" alt="LBJ">
     </div>
 </body>
 </html>
