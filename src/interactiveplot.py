@@ -62,14 +62,14 @@ def scatter():
     # Convert the figure to HTML
     graph_html = fig.to_html(full_html=False)
 
-    # Render the template with the plot
+
     return render_template('scatter.html', plot=graph_html)
 
 
 
-@app.route('/GOAT')
+@app.route('/goat')
 def goat():
-    image_url = url_for('static', filename='lebonbon.jpeg')
+    image_url = url_for('static', filename='images/lebonbon.jpeg')
     return render_template('goat.html', image_url=image_url)
 
 @app.route('/heatmap')
